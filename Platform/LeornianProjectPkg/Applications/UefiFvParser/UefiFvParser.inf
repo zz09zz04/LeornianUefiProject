@@ -1,0 +1,61 @@
+## @file
+#  UEFI FV Parser Tool in Host OS execution
+#
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+##
+
+[Defines]
+  INF_VERSION                    = 0x00010006
+  BASE_NAME                      = UefiFvParser
+  FILE_GUID                      = a7154206-b35f-4ba8-b114-ce63dcbff32a
+  MODULE_TYPE                    = HOST_APPLICATION
+  VERSION_STRING                 = 1.0
+
+  #
+  # Defines for settings that are common between MSFT and CLANGPDB tool chain
+  # families that must use Visual Studio specific defines and libraries when
+  # building modules of type HOST_APPLICATION
+  #
+  DEFINE VISUAL_STUDIO_DEFINES        = -D UNICODE -D _CRT_SECURE_NO_WARNINGS -D _CRT_SECURE_NO_DEPRECATE
+  DEFINE VISUAL_STUDIO_IA32_LIB_PATHS = /LIBPATH:"%VCToolsInstallDir%lib\x86" /LIBPATH:"%UniversalCRTSdkDir%lib\%UCRTVersion%\ucrt\x86" /LIBPATH:"%WindowsSdkDir%lib\%WindowsSDKLibVersion%um\x86"
+  DEFINE VISUAL_STUDIO_X64_LIB_PATHS  = /LIBPATH:"%VCToolsInstallDir%lib\X64" /LIBPATH:"%UniversalCRTSdkDir%lib\%UCRTVersion%\ucrt\X64" /LIBPATH:"%WindowsSdkDir%lib\%WindowsSDKLibVersion%um\X64"
+  DEFINE VISUAL_STUDIO_LIBS           = /NODEFAULTLIB:LIBCMT Kernel32.lib MSVCRTD.lib vcruntimed.lib ucrtd.lib Gdi32.lib User32.lib Winmm.lib Advapi32.lib
+
+#
+# The following information is for reference only and not required by the build tools.
+#
+#  VALID_ARCHITECTURES           = IA32 X64
+#
+
+[Sources]
+  UefiFvParser.c
+  SetScreenColor.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  IntelFsp2Pkg/IntelFsp2Pkg.dec
+  LeornianProjectPkg/LeornianProjectPkg.dec
+
+[LibraryClasses]
+  BaseLib
+  DebugLib
+  BaseMemoryLib
+
+[Guids]
+  gEfiFirmwareVolumeTopFileGuid
+  gEfiFirmwareFileSystem2Guid
+  gEfiFirmwareFileSystem3Guid
+  gFspHeaderFileGuid
+
+[BuildOptions.common.EDKII.HOST_APPLICATION]
+  MSFT:*_*_*_CC_FLAGS        = $(VISUAL_STUDIO_DEFINES)
+  #
+  # Must ovveride DLINK_FLAGS to remove /DLL when linking .exe
+  #
+  MSFT:*_*_*_DLINK_FLAGS    == /out:"$(BIN_DIR)\$(BASE_NAME).exe" /NOLOGO /SUBSYSTEM:CONSOLE /IGNORE:4086 /MAP /OPT:REF /LTCG
+  MSFT:*_*_IA32_DLINK_FLAGS  = $(VISUAL_STUDIO_IA32_LIB_PATHS) $(VISUAL_STUDIO_LIBS)
+  MSFT:*_*_X64_DLINK_FLAGS   = $(VISUAL_STUDIO_X64_LIB_PATHS)  $(VISUAL_STUDIO_LIBS)
+  MSFT:DEBUG_*_*_DLINK_FLAGS = /DEBUG /pdb:"$(BIN_DIR)\$(BASE_NAME).pdb"
+  MSFT:NOOPT_*_*_DLINK_FLAGS = /DEBUG /pdb:"$(BIN_DIR)\$(BASE_NAME).pdb"

@@ -1,0 +1,42 @@
+## @file
+#  Instance of Debug Library based on Serial Port Library.
+#  It uses Print Library to produce formatted output strings to seiral port device.
+#
+#  Copyright (c) 2006 - 2018, Intel Corporation. All rights reserved.<BR>
+#
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+#
+##
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = DumpHexLib
+  FILE_GUID                      = 1b63cd79-b134-41bc-bbdc-d817978f9dd7
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = DumpHexLib
+
+#
+#  VALID_ARCHITECTURES           = IA32 X64 EBC
+#
+
+[Sources]
+  DumpHexLib.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  LeornianProjectPkg/LeornianProjectPkg.dec
+
+[LibraryClasses]
+  UefiLib
+  SerialPortLib
+  BaseMemoryLib
+  PcdLib
+  PrintLib
+  BaseLib
+  DumpHexLib
+
+[Pcd]
+
+

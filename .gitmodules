@@ -1,0 +1,9 @@
+[submodule "Features/TestUefiPkg"]
+	path = Features/TestUefiPkg
+	url = git@github.com:zz09zz04/TestUefiPkg.git
+[submodule "Edk2"]
+	path = Edk2
+	url = https://github.com/tianocore/edk2.git
+[submodule "Features/AslDebugPkg"]
+	path = Features/AslDebugPkg
+	url = git@github.com:zz09zz04/AslDebugPkg.git

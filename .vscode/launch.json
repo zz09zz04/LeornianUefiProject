@@ -1,0 +1,19 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug EmulatorPkg (WinHost)",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceRoot}/Build/TestProjectPkg/DEBUG_VS2022/X64/WinHost.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceRoot}/Build/TestProjectPkg/DEBUG_VS2022/X64",
+            "environment": [],
+            "console": "integratedTerminal"
+        }
+    ]
+}

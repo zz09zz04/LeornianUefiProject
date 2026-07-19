@@ -1,0 +1,5 @@
+Build/
+Platform/**/Build.log
+Platform/**/FeatureIncludes.dsc.inc
+Platform/**/FeatureIncludes.fdf.inc
+Platform/**/FeatureRuleIncludes.fdf.inc

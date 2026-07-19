@@ -1,0 +1,23 @@
+## @file
+#
+# This is the Emu Emulation Environment Platform
+#
+# Copyright (c) 2008 - 2022, Intel Corporation. All rights reserved.<BR>
+# Portions copyright (c) 2011, Apple Inc. All rights reserved.
+# (C) Copyright 2020 Hewlett Packard Enterprise Development LP<BR>
+#
+#    SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+##
+
+[Defines]
+  DEC_SPECIFICATION              = 0x00010005
+  PACKAGE_NAME                   = LeornianProjectPkg
+  PACKAGE_GUID                   = ac7887e6-8b3d-4033-a94f-52dc2a9b7d24
+  PACKAGE_VERSION                = 0.1
+
+[Includes]
+  Include
+
+[LibraryClasses]
+  DumpHexLib|Include/Library/DumpHexLib.h
