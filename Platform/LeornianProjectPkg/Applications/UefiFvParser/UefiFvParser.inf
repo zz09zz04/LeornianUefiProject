@@ -42,6 +42,7 @@
   BaseLib
   DebugLib
   BaseMemoryLib
+  FvLib
 
 [Guids]
   gEfiFirmwareVolumeTopFileGuid

@@ -20,6 +20,7 @@
 #include <Library/BaseLib.h>
 #include <Library/BaseMemoryLib.h>
 #include <Library/DebugLib.h>
+#include <Library/FvLib.h>
 
 #define   DEBUG_STR   "[Debug]"
 #define	  ERROR_EXIT	-1
@@ -202,10 +203,8 @@ const char* ParseFvFileTypeWorker (EFI_FV_FILETYPE Type) {
   return FvFileType[Type];
 }
 
-int ParseFfsHeader (void* address) 
+int ParseFfsHeader (EFI_FFS_FILE_HEADER *FfsFileHeader) 
 {
-  EFI_FFS_FILE_HEADER *FfsFileHeader = address;
-
   if (FFS_FILE_SIZE(FfsFileHeader) == 0xffffff) {
     return FFS_FILE_SIZE(FfsFileHeader);
   }
@@ -268,12 +267,8 @@ int ParseFfsHeader (void* address)
 
 void ParseFvHeader(EFI_FIRMWARE_VOLUME_HEADER *FvHeader)
 {
-  int i;
-  UINT8	*data;
-
-  UINTN FvSize;
-  UINTN FfsSize = 0;
-  UINT8 *DummyPointer;
+  int     i;
+  UINT8	  *data;
 
   data = (UINT8*)&FvHeader->Signature;
 
@@ -319,6 +314,27 @@ void ParseFvHeader(EFI_FIRMWARE_VOLUME_HEADER *FvHeader)
   //
   //  Start to parse FFS for this FV.
   //
+  EFI_FFS_FILE_HEADER  *FileHeader;
+  EFI_STATUS           Status;
+
+  FileHeader = NULL;
+
+  do {
+    Status = FfsFindNextFile (
+              EFI_FV_FILETYPE_ALL,
+              FvHeader,
+              &FileHeader
+              );
+    if (!EFI_ERROR (Status)) {
+      ParseFfsHeader (FileHeader);
+    }
+  } while (!EFI_ERROR (Status));
+
+/*
+  UINTN FvSize;
+  UINTN FfsSize = 0;
+  UINT8 *DummyPointer;
+
   DummyPointer = (UINT8*)FvHeader + FvHeader->HeaderLength;
   FvSize = FvHeader->FvLength - FvHeader->HeaderLength;
 
@@ -340,6 +356,7 @@ void ParseFvHeader(EFI_FIRMWARE_VOLUME_HEADER *FvHeader)
     DummyPointer += FfsSize;
     printf (DEBUG_STR"remaining size = 0x%llx\n",FvSize);
   }
+*/
 }
 
 void SearchFvHeaderAddress (UINT8 *Buffer, int BufferSize, int *NumberOfFvHeader)
