@@ -8,10 +8,10 @@
             "name": "Debug EmulatorPkg (WinHost)",
             "type": "cppvsdbg",
             "request": "launch",
-            "program": "${workspaceRoot}/Build/TestProjectPkg/DEBUG_VS2022/X64/WinHost.exe",
+            "program": "${workspaceRoot}/Build/LeornianProjectPkg/DEBUG_VS2022/X64/WinHost.exe",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "${workspaceRoot}/Build/TestProjectPkg/DEBUG_VS2022/X64",
+            "cwd": "${workspaceRoot}/Build/LeornianProjectPkg/DEBUG_VS2022/X64",
             "environment": [],
             "console": "integratedTerminal"
         }
