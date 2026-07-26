@@ -1,5 +1,5 @@
 ## @file
-#  UEFI FV Parser Tool in Host OS execution
+#  UEFI Firmware Device Parser Tool in Host OS execution
 #
 #  SPDX-License-Identifier: BSD-2-Clause-Patent
 #
@@ -7,7 +7,7 @@
 
 [Defines]
   INF_VERSION                    = 0x00010006
-  BASE_NAME                      = UefiFvParser
+  BASE_NAME                      = UefiFirmwareDeviceParser
   FILE_GUID                      = a7154206-b35f-4ba8-b114-ce63dcbff32a
   MODULE_TYPE                    = HOST_APPLICATION
   VERSION_STRING                 = 1.0
@@ -29,7 +29,7 @@
 #
 
 [Sources]
-  UefiFvParser.c
+  UefiFirmwareDeviceParser.c
   SetScreenColor.c
 
 [Packages]
@@ -42,8 +42,13 @@
   BaseLib
   DebugLib
   BaseMemoryLib
+  ExtractGuidedSectionLib
+  FvLib
+  UefiDecompressLib
 
 [Guids]
+  gLzmaCustomDecompressGuid
+
   gEfiFirmwareVolumeTopFileGuid
   gEfiFirmwareFileSystem2Guid
   gEfiFirmwareFileSystem3Guid

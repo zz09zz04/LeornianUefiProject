@@ -121,7 +121,11 @@
 
 [Components]
   $(PROJECT_PACKAGE)/Applications/MischiefApp/MischiefApp.inf
-  $(PROJECT_PACKAGE)/Applications/UefiFvParser/UefiFvParser.inf
+  $(PROJECT_PACKAGE)/Applications/UefiFirmwareDeviceParser/UefiFirmwareDeviceParser.inf {
+    <LibraryClasses>
+      ExtractGuidedSectionLib|MdePkg/Library/BaseExtractGuidedSectionLib/BaseExtractGuidedSectionLib.inf
+      NULL|MdeModulePkg/Library/LzmaCustomDecompressLib/LzmaCustomDecompressLib.inf
+  }
   UefiCpuPkg/Application/Cpuid/Cpuid.inf
 
 ## Reference Project Instances
