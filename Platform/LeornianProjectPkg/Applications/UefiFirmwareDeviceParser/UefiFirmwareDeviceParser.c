@@ -56,7 +56,7 @@ LzmaUefiDecompress (
 #define   DEBUG_STR   "[Debug]"
 #define	  ERROR_EXIT	-1
 
-#define   FV_COUNT    32
+#define   FV_COUNT    64
 #define   MAX_SECTION_NESTING_DEPTH  16
 EFI_FIRMWARE_VOLUME_HEADER *mFvBaseAddrBuffer[FV_COUNT];
 
@@ -102,6 +102,35 @@ STATIC CONST RAW_COLOR_ENTRY mFfsColorMap[] = {
   { OFFSET_OF(EFI_FFS_FILE_HEADER, Size),                   CYAN_TEXT       },
   { OFFSET_OF(EFI_FFS_FILE_HEADER, State),                  PURPLE_TEXT     },
   { MAX_UINTN,                                              WHITE_TEXT      }
+};
+
+STATIC CONST RAW_COLOR_ENTRY mFspColorMap[] = {
+  { OFFSET_OF(FSP_INFO_HEADER, Signature),                             CYAN_TEXT       },
+  { OFFSET_OF(FSP_INFO_HEADER, HeaderLength),                          WHITE_TEXT      },
+  { OFFSET_OF(FSP_INFO_HEADER, Reserved1),                             GRAY_TEXT       },
+  { OFFSET_OF(FSP_INFO_HEADER, SpecVersion),                           WHITE_TEXT      },
+  { OFFSET_OF(FSP_INFO_HEADER, HeaderRevision),                        WHITE_TEXT      },
+  { OFFSET_OF(FSP_INFO_HEADER, ImageRevision),                         WHITE_TEXT      },
+  { OFFSET_OF(FSP_INFO_HEADER, ImageId),                               PURPLE_TEXT     },
+  { OFFSET_OF(FSP_INFO_HEADER, ImageSize),                             RED_TEXT        },
+  { OFFSET_OF(FSP_INFO_HEADER, ImageBase),                             GREEN_TEXT      },
+  { OFFSET_OF(FSP_INFO_HEADER, ImageAttribute),                        WHITE_TEXT      },
+  { OFFSET_OF(FSP_INFO_HEADER, ComponentAttribute),                    WHITE_TEXT      },
+  { OFFSET_OF(FSP_INFO_HEADER, CfgRegionOffset),                       WHITE_TEXT      },
+  { OFFSET_OF(FSP_INFO_HEADER, CfgRegionSize),                         WHITE_TEXT      },
+  { OFFSET_OF(FSP_INFO_HEADER, Reserved2),                             GRAY_TEXT       },
+  { OFFSET_OF(FSP_INFO_HEADER, TempRamInitEntryOffset),                LIGHTBLUE_TEXT  },
+  { OFFSET_OF(FSP_INFO_HEADER, Reserved3),                             GRAY_TEXT       },
+  { OFFSET_OF(FSP_INFO_HEADER, NotifyPhaseEntryOffset),                LIGHTRED_TEXT   },
+  { OFFSET_OF(FSP_INFO_HEADER, FspMemoryInitEntryOffset),              BLUE_TEXT       },
+  { OFFSET_OF(FSP_INFO_HEADER, TempRamExitEntryOffset),                LIGHTBLUE_TEXT  },
+  { OFFSET_OF(FSP_INFO_HEADER, FspSiliconInitEntryOffset),             LIGHTORANGE_TEXT},
+  { OFFSET_OF(FSP_INFO_HEADER, FspMultiPhaseSiInitEntryOffset),        LIGHTORANGE_TEXT},
+  { OFFSET_OF(FSP_INFO_HEADER, ExtendedImageRevision),                 PURPLE_TEXT     },
+  { OFFSET_OF(FSP_INFO_HEADER, Reserved4),                             GRAY_TEXT       },
+  { OFFSET_OF(FSP_INFO_HEADER, FspMultiPhaseMemInitEntryOffset),       BLUE_TEXT       },
+  { OFFSET_OF(FSP_INFO_HEADER, FspSmmInitEntryOffset),                 RED_TEXT        },
+  { MAX_UINTN,                                                         WHITE_TEXT      }
 };
 
 UINT8
@@ -626,7 +655,8 @@ FfsInfoPrintWorker (
   if (CompareGuid (&FfsFileHeader->Name, &gFspHeaderFileGuid)) {
     FSP_INFO_HEADER *FspInfoHeader;
     FspInfoHeader = (FSP_INFO_HEADER*)((UINT8*)FfsFileHeader + sizeof (EFI_FFS_FILE_HEADER) + 4);
-    ShowRawData ((UINT8*)FspInfoHeader, FFS_FILE_SIZE(FfsFileHeader) - sizeof (EFI_FFS_FILE_HEADER) - 4, Depth, NULL);
+    ShowRawData ((UINT8*)FspInfoHeader, sizeof (FSP_INFO_HEADER), Depth, mFspColorMap);
+    INDENT_PRINTF (Depth, "\n");
     INDENT_PRINTF (Depth, "Signature                       = 0x%x\n", FspInfoHeader->Signature);
     INDENT_PRINTF (Depth, "HeaderLength                    = 0x%x\n", FspInfoHeader->HeaderLength);
     INDENT_PRINTF (Depth, "SpecVersion                     = 0x%x\n", FspInfoHeader->SpecVersion);
